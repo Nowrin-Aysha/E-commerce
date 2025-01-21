@@ -1,0 +1,102 @@
+<%- include("../partials/admin_header")%>
+    <div class="container-scroller">
+      <!-- partial:../../partials/_sidebar.html -->
+      <%- include('../partials/admin_sidebar')%>
+     
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <%- include('../partials/admin_navbar')%>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> Users</h3>
+              
+            </div>
+            <div class="row">
+              
+              
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    
+                   
+                   
+                    <div class="table-responsive" >
+                      <table class="table table-striped" id="user-table">
+                        <thead>
+                          <tr>
+                            <!-- <th> No</th> -->
+                            <th>Coupon Name</th>
+                            <th>Amount</th>
+                            <th style="font-size:11px !important">MinCart Amount</th>
+                            <th style="font-size:11px !important">Maxredeem amount</th>
+                            <th>Expire Date</th>
+                            <th>Limit</th>
+                            <!-- <th>Used</th> -->
+                            <th>Status</th>
+                            <th>Options</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                       
+                         <%couponData.reverse().forEach((coupon)=>{%>
+
+                          <tr >
+                           
+                            <td class="text-white"><%=coupon.couponcode%></td>
+                            <td  class="text-white"> <%=coupon.couponamount%>(<%=coupon.couponamounttype%>)</td>
+                            <td class="text-white"><%=coupon.mincartamount%></td>
+                           <td class="text-white"><%=coupon.maxredeemamount%></td>
+                            <td class="text-white"><%=coupon.expiredate.toISOString().substring(0,10)%></td>
+                            <td class="text-white"><%=coupon.limit%></td>
+                           
+                            <td class="text-white"><%=coupon.status%></td>
+                            <td class="text-white">
+
+                              <a href="/admin/editcoupon/<%=coupon._id%>" class="fa fa-edit text-decoration-none "></a>
+                              <button class="fa fa-trash " onclick="removecoupon('<%=coupon._id%>')"  style="font-size:20px;color:rgb(235, 14, 14) ; text-decoration: none; background-color: rgba(240, 248, 255, 0); border: none;" ></td>
+                            
+                          </tr>
+                          <!-- onclick="deletecategory('')" -->
+                         
+                        <%})%>
+                          
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              
+              
+            </div>
+          </div>
+          
+        </div>
+  
+      </div>
+      
+    </div>
+    <script>
+      function removecoupon(id){
+        $.ajax({
+          url:"/admin/removecoupon",
+          method:"post",
+          data:{
+            id:id
+          },
+          success:(response)=>{
+            if(response.remove=true){
+              alert("coupon removed")
+              window.location.reload()
+
+            }
+          }
+        })
+      }
+    </script>
+  
+    <%- include('../partials/admin_footer')%>

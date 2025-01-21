@@ -1,0 +1,580 @@
+<%-include('../partials/userheader')%>
+<!-- Navbar End -->
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+  <div class="row px-xl-5">
+    <div class="col-12">
+      <nav class="breadcrumb bg-light mb-30">
+        <a class="breadcrumb-item text-dark" href="/">Home</a>
+        <a class="breadcrumb-item text-dark" href="/shop">Shop</a>
+        <span class="breadcrumb-item active">Checkout</span>
+      </nav>
+    </div>
+  </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Checkout Start -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-8">
+ 
+    </div>
+    <div class="col-lg-3">
+      
+          <h5 class="section-title position-relative text-uppercase mb-3">
+            <span class="bg-secondary pr-3">coupen</span>
+          </h5>
+          <div class="input-group">
+            <input
+              type="text"
+              id="code"
+              class="form-control border-0 p-4"
+              placeholder="Coupon Code"
+            />
+            <div class="input-group-append">
+              <button class="btn btn-primary" onclick="applyCoupon($('#code').val())">Apply Coupon</button>
+            </div>
+          </div>
+        
+    </div>
+
+  </div>
+  
+  <div class="row px-xl-5 mt-3">
+    <div class="col-lg-8">
+      <h5 class="section-title position-relative text-uppercase mb-3">
+        <span class="bg-secondary pr-3 font-weight-bold">Address</span>
+      </h5>
+      <div class="bg-light p-30 mb-5">
+        <button type="button" class="btn btn-success font-weight-bold"  style="border-radius: 6px" data-toggle="modal" data-target="#exampleModalLong">
+          Add Address
+        </button>
+        <form id="checkoutform" >
+        <div class="">
+            
+
+          <%acname.address.forEach((address)=>{%>
+            <hr>
+            <div class="row d-flex align-items-center">
+                <div class="col-1">
+                    <input type="radio"  name="address" id="address" value="<%= address.name %><%=address.housename %><%= address.phone %> ,<%= address.city %><%= address.district %>, <%= address.state %><%= address.pincode%>",
+ required />
+
+                </div>
+                <div class="col-7">
+                    <label for="address" class="text-dark">
+                        <%= address.name %>
+                         ,<%=address.housename %>,
+                          <br /><%= address.phone %>, <%= address.city %>
+                          <br> <%= address.district %>, <%= address.state %><br>
+                          <%= address.pincode %>
+                      </label>   
+                </div>
+                <div class="col-2">
+                    <a href="/deleteaddress/<%=address._id%>" class="btn btn-danger btn-sm" style="border-radius: 6px;">Delete</a>
+                  </div>
+            </div>
+          <%})%>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+    
+      <h5 class="section-title position-relative text-uppercase mb-3">
+        <span class="bg-secondary pr-3 font-weight-bold">Order Total</span>
+      </h5>
+      <div class="bg-light p-30 mb-5">
+        <div class="border-bottom">
+
+          <h6 class="mb-3">Products</h6>
+          <%cartData.product.forEach((cart)=>{%>
+            <div class="d-flex justify-content-between">
+              <p class="text-dark"><%=cart.productId.productName%></p>
+              <p class="text-dark "><%=cart.productId.price%>  x <%=cart.quantity%></p> 
+            </div>
+
+          <%})%>
+          
+         
+        </div>
+       
+        <div class="border-bottom pt-3 pb-2">
+          <div class="d-flex justify-content-between mb-3">
+            <h6>Subtotal</h6>
+            <h6>₹  <span id="total"><%=Totalcart%></h6>
+          </div>
+          <div class="d-flex justify-content-between">
+            <h6 class="font-weight-medium">Coupon Discount</h6>
+            <h6 class="font-weight-medium">₹  <span id="coupondiscount">0</span></h6>
+          </div>
+          <div class="d-flex justify-content-between">
+            <h6 class="font-weight-medium">Wallet Amount</h6>
+            <h6 class="font-weight-medium">₹  <span id="walletamount"><%=walletamount%></span></h6>
+          </div>
+        </div>
+        <div class="pt-2">
+          <div class="d-flex justify-content-between mt-2">
+            <h5>Total</h5>
+            <h5>₹ <span id="total-amount" ><%=Total%></span> </h5>
+          </div>
+        </div>
+      </div>
+      <div class="mb-5">
+        <h5 class="section-title position-relative text-uppercase mb-3">
+          <span class="bg-secondary pr-3">Payment</span>
+        </h5>
+        <div class="bg-light p-30">
+          <div class="form-group">
+            <div class="custom-control custom-radio">
+              <input
+                type="radio"
+                class="custom-control-input"
+                name="payment"
+                id="paypal"
+                value="COD"
+              />
+              <label class="custom-control-label text-dark font-weight-bold" for="paypal">Cash on delivery</label>
+            </div>
+          </div>
+
+          <div class="form-group mb-4">
+            <div class="custom-control custom-radio">
+              <input
+                type="radio"
+                class="custom-control-input"
+                name="payment"
+                id="banktransfer"
+
+                value="ONLINE"
+              />
+              <label class="custom-control-label text-dark font-weight-bold" for="banktransfer"
+                >Online</label
+              >
+            </div>
+          </div>
+          <%if(acname.address.length<=0){%>
+            <button type="submit" class="btn btn-block btn-primary font-weight-bold py-3" disabled>
+              Place Order
+            </button>
+          </div>
+
+         <% }else{%>
+          <button type="submit" class="btn btn-block btn-primary font-weight-bold py-3">
+            Place Order
+          </button>
+        </div>
+
+         <% }%>
+          
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+<!-- Checkout End -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/addaddress">
+          <div class="form-outline mb-4">
+            <label class="form-label" for="email1">name</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              class="form-control"
+              placeholder="Enter the Name"
+              required
+            />
+          </div>
+          <div class="form-outline mb-4">
+            <label class="form-label" for="email1">House name</label>
+            <input
+              type="text"
+              name="housename"
+              id="housename"
+              class="form-control"
+              placeholder="Enter the House name"
+              required
+            />
+          </div>
+          <div class="form-outline mb-4">
+            <label class="form-label" for="email1">Mobile</label>
+            <input
+              type="text"
+              name="phone"
+              id="phone"
+              class="form-control"
+              placeholder="Enter the Mobile"
+              required
+            />
+          </div>
+          <div class="form-outline mb-4">
+            <label class="form-label" for="email1">City</label>
+            <input
+              type="text"
+              name="city"
+              id="city"
+              class="form-control"
+              placeholder="Enter the City"
+              required
+            />
+          </div>
+          <div class="form-outline mb-4">
+            <label class="form-label" for="email1">Disctrict</label>
+            <input
+              type="text"
+              name="discrict"
+              id="discrict"
+              class="form-control"
+              placeholder="Enter the Disctrict"
+              required
+            />
+          </div>
+          <div class="form-outline mb-4">
+            <label class="form-label" for="email1">State</label>
+            <input
+              type="text"
+              name="state"
+              id="state"
+              class="form-control"
+              placeholder="Enter the state"
+              required
+            />
+          </div>
+          <div class="form-outline mb-4">
+            <label class="form-label" for="email1">pincode</label>
+            <input
+              type="text"
+              name="pincode"
+              id="pincode"
+              class="form-control"
+              placeholder="enter the pincode"
+              required
+            />
+          </div>
+
+         
+        
+      </div>
+      <div class="modal-footer">
+        <!-- <a href="/checkout" class="" > <button class="btn btn-dark" data-dismiss="modal">Close</button></a> -->
+       
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid bg-dark text-secondary mt-5 pt-5">
+  <div class="row px-xl-5 pt-5">
+      <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
+          <h5 class="text-secondary text-uppercase mb-4">Get In Touch with E-SHOES</h5>
+          <p class="mb-4">we are here to deliver good qualitty products and meets your needs</p>
+          <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Kannur, street 2,kerala ,India</p>
+          <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>eshoes518@gmail.com</p>
+          <p class="mb-2"><i class="fa fa-phone-alt text-primary mr-3"></i>+91 9447711176 </p>
+      </div>
+      <div class="col-lg-8 col-md-12">
+          <div class="row">
+              <div class="col-md-4 mb-5">
+                  <h5 class="text-secondary text-uppercase mb-4">Quick Shop</h5>
+                  <div class="d-flex flex-column justify-content-start">
+                      <a class="text-secondary mb-2" href="/"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                      <a class="text-secondary mb-2" href="/shop"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
+                      <a class="text-secondary mb-2" href="/cart"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
+                      <a class="text-secondary" href="/contact"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                  </div>
+              </div>
+              <div class="col-md-4 mb-5">
+                  <h5 class="text-secondary text-uppercase mb-4">My Account</h5>
+                  <div class="d-flex flex-column justify-content-start">
+                      <a class="text-secondary mb-2" href="/"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                      <a class="text-secondary mb-2" href="/shop"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
+                     
+                      <a class="text-secondary mb-2" href="/cart"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
+                     
+                      <a class="text-secondary" href="/contact"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                  </div>
+              </div>
+              <div class="col-md-4 mb-5">
+                  <!-- <h5 class="text-secondary text-uppercase mb-4">Newsletter</h5>
+                  <p>Duo stet tempor ipsum sit amet magna ipsum tempor est</p>
+                  <form >
+                      <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Your Email Address">
+                          <div class="input-group-append">
+                              <button class="btn btn-primary">Sign Up</button>
+                          </div>
+                      </div>
+                  </form> -->
+                  <h6 class="text-secondary text-uppercase mt-4 mb-3">Follow Us</h6>
+                  <div class="d-flex">
+                      <a class="btn btn-primary btn-square mr-2" href="#"><i class="fab fa-twitter"></i></a>
+                      <a class="btn btn-primary btn-square mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                      <a class="btn btn-primary btn-square mr-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                      <a class="btn btn-primary btn-square" href="#"><i class="fab fa-instagram"></i></a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row border-top mx-xl-5 py-4" style="border-color: rgba(256, 256, 256, .1) !important;">
+      <div class="col-md-6 px-xl-0">
+          <p class="mb-md-0 text-center text-md-left text-secondary">
+              &copy; <a class="text-primary" href="">Domain</a>. All Rights Reserved. Designed
+              by
+              <a class="text-primary" href="/">E - SHOES</a>
+          </p>
+      </div>
+      <div class="col-md-6 px-xl-0 text-center text-md-right">
+          <img class="img-fluid" src="/user/img/card.jpg" alt="" style="height: 60px; width: 160px;">
+      </div>
+  </div>
+</div>
+<!-- Footer End -->
+
+<!-- jquery -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+<!-- swall fire -->
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  document.getElementById("name").addEventListener("input",function(){
+    const name=document.getElementById("name").value.trim()
+    if(email==""){
+      document.getElementById("name").setCustomValidity("Name cannot be empty")
+    }else{
+      document.getElementById("name").setCustomValidity("")
+    }
+  })
+  document.getElementById("housename").addEventListener("input",function(){
+    let housename=document.getElementById("housename").value.trim()
+    if(housename==""){
+      document.getElementById("housename").setCustomValidity("House name cannot be null")
+    }else{
+      document.getElementById("housename").setCustomValidity("")
+    }
+  })
+  document.getElementById("phone").addEventListener("input",function(){
+    let phone=document.getElementById("phone").value.trim()
+    if(phone==""){
+      document.getElementById("phone").setCustomValidity("phone number cannot be null")
+
+    }else if(phone.length<10){
+      document.getElementById("phone"),setCustomValidity("phone number is less than 10")
+
+    }else{
+      document.getElementById("phone").setCustomValidity("")
+    }
+  })
+  document.getElementById("city").addEventListener("input",function(){
+    let city=document.getElementById("city").value.trim()
+    if(city==""){
+      document.getElementById("city").setCustomValidity("city cannot be null")
+    }else{
+      document.getElementById("city").setCustomValidity("")
+    }
+  }) 
+  document.getElementById("discrict").addEventListener("input",function(){
+    let discrict=document.getElementById("discrict").value.trim()
+    if(discrict==""){
+      document.getElementById("discrict").setCustomValidity("discrict cannot be empty")
+    }else{
+      document.getElementById("discrict").setCustomValidity("")
+    }
+  })
+  document.getElementById("state").addEventListener("input",function(){
+    let state=document.getElementById("state").value.trim()
+    if(state==""){
+      document.getElementById("state").setCustomValidity("state cannot be empty")
+    }else{
+      document.getElementById("state").setCustomValidity("")
+    }
+  })
+  document.getElementById("pincode").addEventListener("input",function(){
+    let pincode=document.getElementById("pincode").value.trim()
+    if(pincode==""){
+      document.getElementById("pincode").setCustomValidity("pincode cannot be empty")
+    }else{
+      document.getElementById("pincode").setCustomValidity("")
+    }
+  })
+
+
+
+  $("#checkoutform").submit((e)=>{
+  
+   const amount=document.getElementById("total-amount").innerHTML
+   let address=$("input[name=address]:checked").val()
+   let payment=$("input[name=payment]:checked").val()
+   let walletprice=document.getElementById("walletamount").innerHTML
+   e.preventDefault()
+   $.ajax({
+     url:"/placeorder",
+     method:"post",
+     data:{
+       total:amount,
+       address:address,
+       payment:payment,
+       wallet:walletprice
+     },
+     success:(response)=>{
+      if(response.codsuccess==true){
+        location.href="/ordersuccess"
+      }else{
+        console.log(response.order);
+        razorpayPayment(response.order)
+      }
+        
+     }
+   })
+  })
+  function razorpayPayment(order){
+    var options = {
+    "key":"rzp_test_Yp5AmFQqgmu2Nq", // Enter the Key ID generated from the Dashboard
+    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "E-SHOES", //your business name
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    // "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+    "handler":function(response){
+        verifyPayment(response,order)
+    },
+    "prefill": {
+        "name": "Gaurav Kumar", //your customer's name
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+    
+};
+var rzp1 = new Razorpay(options);
+    rzp1.open();
+    
+
+  }
+  function verifyPayment(payment,order){
+  
+    $.ajax({
+      url:"/verifypayment",
+      method:'post',
+      data:{
+        payment,
+        order 
+      },
+      success:(response)=>{
+        if(response.success==true){
+        location.href = "/ordersuccess";
+        }else{
+          Swal.fire({
+            icon: 'error',
+            title: 'Payment has failed',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+      }
+     
+    })
+  }
+  function applyCoupon(code){
+    let amount=document.getElementById("total").innerHTML
+    console.log(amount);
+    $.ajax({
+      url:'/applycoupon',
+      method:'post',
+      data:{
+        code:code,
+        amount:amount
+      },
+      success:(response)=>{
+        if(response.invalid){
+          Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Coupon Not found.",
+                });
+        }else if(response.expire){
+          Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Coupon as expired.",
+                });
+
+        }else if(response.cartamount){
+          Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Minimum Amount required.",
+                });
+
+        }else if(response.user){
+          Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Coupon has already used.",
+                });
+
+        }
+        else if(response.couponokey){
+          console.log('HI');
+         document.getElementById("coupondiscount").innerHTML=response.discountvalue
+         document.getElementById("total-amount").innerHTML=response.distotal
+         document.getElementById("coupencode").innerHTML=response.code
+         Swal.fire({
+                  icon: "success",
+                  title: "Oops...",
+                  text: "Coupon Added successfully",
+                });
+        }
+        
+
+      }
+    })
+
+  }
+
+
+</script>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="/user/lib/easing/easing.min.js"></script>
+<script src="/user/lib/owlcarousel/owl.carousel.min.js"></script>
+
+<!-- Contact Javascript File -->
+<script src="/user/mail/jqBootstrapValidation.min.js"></script>
+<script src="/user/mail/contact.js"></script>
+
+<!-- Template Javascript -->
+<script src="/user/js/main.js"></script>
+
+</body>
+
+</html>

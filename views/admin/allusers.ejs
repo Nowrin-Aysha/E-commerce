@@ -1,0 +1,88 @@
+<%- include("../partials/admin_header")%>
+    <div class="container-scroller">
+      <!-- partial:../../partials/_sidebar.html -->
+      <%- include('../partials/admin_sidebar')%>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <%- include('../partials/admin_navbar')%>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> Users</h3>
+              
+            </div>
+            <div class="row">
+              
+              
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    
+                   
+                   
+                    <div class="table-responsive" >
+                      <table class="table table-striped" id="user-table">
+                        <thead>
+                          <tr>
+                            <th> No</th>
+                            <th> Name</th>
+                            <th> Email</th>
+                            <th> Phone</th>
+                            
+                            <th>Block</th>
+                            <th>Options</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% let count=1%>
+                          <% allusers.forEach((user)=>{ %>
+
+                          <tr >
+                            <td><%=count%></td>
+                            <td>
+                              <%= user.name%>
+
+                            </td>
+                            <td> <%= user.email%></td>
+                            <td>
+                              <%=user.phone%>
+                            </td>
+                           
+                         
+                           <td><%=user.blocked%></td>
+                            <td>
+                              
+                             <%if(user.blocked==false){%>
+                              <a href="/admin/blockuser/<%=user._id%>" onclick="return confirm('DO you want to Block','<%=user.name%>')" class="btn btn-danger">Block</a>
+
+                             <%}else{%>
+                              <a href="/admin/unblockuser/<%=user._id%>" onclick="return confirm('DO you want to UnBlock ','<%=user.name%>')" class="btn btn-success">Unblock</a>
+
+                             <%}%>
+                            </td>
+                          </tr>
+                          <%count++%>
+                         <% })%>
+                          
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              
+              
+            </div>
+          </div>
+          
+        </div>
+  
+      </div>
+      
+    </div>
+  
+    <%- include('../partials/admin_footer')%>
