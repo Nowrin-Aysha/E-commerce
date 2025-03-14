@@ -17,11 +17,11 @@ app.set("view engine", "ejs");
 app.set(cookiparser());
 app.use(express.static(path.join(__dirname, "public")));
 
-//morgon setup
+
 app.use(morgon("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-//session management
+
 app.use(
   session({
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
@@ -31,7 +31,7 @@ app.use(
   })
 );
 
-//remove cache
+
 app.use((req, res, next) => {
   res.header("Cache-Control", "no-cache,  no-store, must-revalidate");
   next();
